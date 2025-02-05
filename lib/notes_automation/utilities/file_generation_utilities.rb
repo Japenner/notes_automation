@@ -8,6 +8,8 @@ require 'rouge'     # for syntax highlighting
 module NotesAutomation
   module Utilities
     module FileGenerationUtilities
+      LINK_REGEX = /\[\[(.*?)\]\]/          # Regex for wiki‐style links: [[some link]]
+
       # Use Rouge to generate a stylesheet (using the “github” theme).
       def generate_stylesheet
         theme = Rouge::Theme.find('github')
@@ -23,7 +25,7 @@ module NotesAutomation
         end
       end
 
-      # Strip a “fancy” link name – if a pipe or hash is present, return only the first part.
+      # Strip a "fancy" link name – if a pipe or hash is present, return only the first part.
       def strip_fancy_name(link)
         if link.include?("|")
           link.split("|").first
@@ -36,7 +38,7 @@ module NotesAutomation
 
       # Find all wiki–style links in a markdown document.
       def findlinks(md)
-        md.scan(LINK_RE).flatten.map { |link| strip_fancy_name(link) }
+        md.scan(LINK_REGEX).flatten.map { |link| strip_fancy_name(link) }
       end
 
       # Return the canonical (lowercase) form of a title.

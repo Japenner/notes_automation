@@ -1,5 +1,8 @@
 module NotesAutomation
   module LinkingUtilities
+    IMAGE_LINK_REGEX = /!\[\[(.*?)\]\]/  # Regex for image “wikilinks”: ![[some image]]
+    CROSSLINK_REGEX = /\[\[(.*?)\]\]/    # For crosslink replacement (again, using [[...]] syntax)
+
     # -------------------------------
     # Attachment replacement for image links
     # -------------------------------
@@ -34,7 +37,7 @@ module NotesAutomation
     def substitute_images(pages, attachments)
       replacer = attachment_replacer(pages, attachments)
       pages.each_value do |page|
-        page.source = page.source.gsub(IMAGE_LINK_RE, &replacer)
+        page.source = page.source.gsub(IMAGE_LINK_REGEX, &replacer)
       end
     end
 
@@ -86,7 +89,7 @@ module NotesAutomation
     def substitute_crosslinks(pages)
       replacer = crosslink_replacer(pages)
       pages.each_value do |page|
-        page.source = page.source.gsub(CROSSLINK_RE, &replacer)
+        page.source = page.source.gsub(CROSSLINK_REGEX, &replacer)
       end
     end
   end

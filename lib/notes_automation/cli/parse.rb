@@ -7,26 +7,29 @@ require_relative '../commands/parse/notes'
 module NotesAutomation
   class CLI < Thor
     class Parse < Commands::ParseCommand
-      # method_option :dir, type: :string,
-      #                     aliases: '-d',
-      #                     desc: 'The directory to build the script in',
-      #                     default: '.'
+      method_option :recent, type: :integer,
+                             aliases: '-r',
+                             desc: 'Number of recent entries to show (default: 15)',
+                             default: 15
 
-      # method_option :filename, type: :string,
-      #                          aliases: '-f',
-      #                          desc: 'The name of the script file',
-      #                          default: 'script'
+      method_option :path, type: :string,
+                           aliases: '-p',
+                           desc: 'Path to folder of .md files to publish',
+                           default: File.expand_path("~/repos/personal/obsidian")
 
-      # option :gem_path, type: :string,
-      #                   aliases: '-g',
-      #                   default: "#{Dir.home}/repos/personal/jacobs_toolbox",
-      #                   desc: "Path to the host gem's root directory"
+      method_option :use_git_times, type: :string,
+                                    aliases: '-g',
+                                    desc: 'Use git modified time instead of file mtime',
+                                    default: true
 
-      # option :prompt_path, type: :string,
-      #                      aliases: '-p',
-      #                      default:
-      #                       "#{Dir.home}/Repos/personal/jacobs_toolbox/lib/jacobs_toolbox/prompts/build_script.md",
-      #                      desc: 'Path to the prompt file with placeholders'
+      method_option :feed, type: :array,
+                           aliases: '-f',
+                           desc: 'A directory to generate a separate feed for. Can be given multiple times',
+                           default: []
+
+      method_option :help, type: :nil,
+                           aliases: '-h',
+                           desc: 'Prints this help',
 
       desc 'parse', 'Parse markdown notes'
       def notes
