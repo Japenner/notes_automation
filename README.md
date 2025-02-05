@@ -1,43 +1,109 @@
 # NotesAutomation
 
-TODO: Delete this and the text below, and describe your gem
+**NotesAutomation** is a Ruby gem for generating static websites from a directory of Markdown files. It processes Markdown files (with YAML frontmatter), supports wiki–style links and image attachments, and automatically generates HTML pages, search indexes, Atom feeds, and directory pages. This gem is perfect for publishing personal notes, blogs, or documentation from your Markdown sources.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/notes_automation`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Features
+
+- **Markdown Rendering:**
+  Converts Markdown to HTML using [Kramdown](https://kramdown.gettalong.org/) with GitHub–flavored Markdown support.
+
+- **Syntax Highlighting:**
+  Integrates with [Rouge](https://github.com/rouge-ruby/rouge) to provide beautiful syntax highlighting for code blocks.
+
+- **Custom Link Parsing:**
+  Supports wiki–style links (e.g. `[[Page]]` or `[[Page|Nice Title]]`) and cross–linking between pages, with automatic replacement.
+
+- **YAML Frontmatter:**
+  Reads and processes YAML frontmatter to enable custom metadata (e.g. creation dates, draft status).
+
+- **Git Timestamps:**
+  Optionally uses git commit times to set file creation and modification timestamps instead of relying solely on file system data.
+
+- **File Tree Generation:**
+  Automatically builds a directory tree from your Markdown files to generate index pages and navigation links.
+
+- **Atom Feed Generation:**
+  Creates Atom feeds for your entire site and for specified subdirectories.
+
+- **Search Index:**
+  Generates a search page by extracting text from your rendered HTML.
+
+- **Customizable Templates:**
+  Uses ERB templates (stored in the `templates` directory) to let you fully customize the output HTML.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
-
-```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem 'notes_automation'
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+And then execute:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle install
+```
+
+Or install it yourself as:
+
+```bash
+gem install notes_automation
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+Once installed, you can run the static site generator from the command line. For example:
+
+```bash
+notes_automation --path /absolute/path/to/markdown_files --recent 15 --use-git-times --feed blog
+```
+
+### Command-Line Options
+
+- `--path PATH`
+  The absolute path to the folder containing your Markdown files. If not specified, the gem defaults to a preset location (for example, an Obsidian vault).
+
+- `--recent N`
+  Specifies the number of recent entries to show on the index page. The default is `15`.
+
+- `--use-git-times`
+  Use git commit timestamps instead of file modification times for file dates.
+
+- `--feed NAME`
+  Generate a separate Atom feed for the directory named `NAME`. This option can be given multiple times.
+
+The generator processes your Markdown files, applies custom transformations (e.g. for images and crosslinks), and writes the generated HTML along with static assets into an `output` directory.
+
+## Templates
+
+The gem uses ERB templates stored in the `templates` folder to render HTML pages, Atom feeds, directory listings, and search pages. Customize these templates to change the look and feel of your site.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Contributions are welcome! To work on NotesAutomation locally:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+1. **Fork and Clone** the repository.
+2. Install dependencies using Bundler:
 
-## Contributing
+   ```bash
+   bundle install
+   ```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/notes_automation. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/notes_automation/blob/master/CODE_OF_CONDUCT.md).
+3. Run tests (if provided) to ensure everything is working as expected.
+4. Submit a pull request with your improvements.
+
+### Dependencies
+
+- [kramdown](https://github.com/gettalong/kramdown)
+- [rouge](https://github.com/rouge-ruby/rouge)
+- [nokogiri](https://nokogiri.org/)
+- Ruby (>= 2.7 recommended)
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+This gem is released under the [MIT License](LICENSE).
 
-## Code of Conduct
+## Acknowledgments
 
-Everyone interacting in the NotesAutomation project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/notes_automation/blob/master/CODE_OF_CONDUCT.md).
+NotesAutomation is inspired by a Python static site generator and has been ported to Ruby to leverage modern libraries for Markdown rendering, syntax highlighting, and HTML processing. Special thanks to the developers behind kramdown, rouge, and nokogiri for providing robust tools that made this project possible.

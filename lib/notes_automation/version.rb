@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
 module NotesAutomation
-  VERSION = "0.1.0"
+  MAJOR = 0
+  MINOR = 1
+  PATCH = 0
+
+  VERSION = [MAJOR, MINOR, PATCH].join('.')
 end
