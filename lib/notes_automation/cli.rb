@@ -6,7 +6,7 @@ require_relative 'cli/parse'
 
 module NotesAutomation
   class CLI < Thor
-    package_name "Notes Automation"
+    package_name 'Notes Automation'
 
     desc 'parse', 'Commands related to parsing'
     subcommand 'parse', CLI::Parse

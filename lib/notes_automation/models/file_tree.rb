@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -------------------------------
 # FileTree class for organizing files
 # -------------------------------
@@ -13,8 +15,8 @@ module NotesAutomation
       if @dir.is_a?(String)
         @basename    = File.basename(@dir)
         @reldir      = pathname(@dir)
-        @dirparts    = @dir.split("/")
-        @reldirparts = @reldir.split("/")
+        @dirparts    = @dir.split('/')
+        @reldirparts = @reldir.split('/')
       end
       @page     = page
       @children = []
@@ -35,6 +37,7 @@ module NotesAutomation
     # Find a sub–directory node whose reldirparts end with the given dir.
     def find_dir(dir)
       return self if @reldirparts && @reldirparts[-1] == dir
+
       @children.each do |child|
         if child.dir
           found = child.find_dir(dir)
@@ -48,24 +51,23 @@ module NotesAutomation
     def dir_backlinks
       backlinks = Set.new
       @children.each do |child|
-        if child.page
-          child.page.backlinks.each { |link| backlinks.add(link) }
-        end
+        child.page&.backlinks&.each { |link| backlinks.add(link) }
       end
       backlinks
     end
 
     # Returns true if this node has any child directories.
     def has_child_dirs?
-      @children.any? { |child| child.dir }
+      @children.any?(&:dir)
     end
 
     # Yield a link to each directory page, all the way back to the root.
     def dirlinks
-      raise "No directory defined" unless @dir
+      raise 'No directory defined' unless @dir
+
       links = []
       @dirparts.each_index do |i|
-        link = "/" + @reldirparts[0..i].join("/")
+        link = "/#{@reldirparts[0..i].join('/')}"
         links << "<a href=\"#{link}.html\">#{@dirparts[i]}</a>"
       end
       links
@@ -73,15 +75,17 @@ module NotesAutomation
 
     # Return a link to this directory.
     def dirlink
-      raise "No directory defined" unless @dir
-      href = "/" + @reldirparts.join("/") + ".html"
+      raise 'No directory defined' unless @dir
+
+      href = "/#{@reldirparts.join('/')}.html"
       "<a href=\"#{href}\" class=\"dirlink\">🔗</a>"
     end
 
     def to_s
       return File.basename(@dir) if @dir
       return @page.title if @page
-      "FileTreeNode"
+
+      'FileTreeNode'
     end
   end
 end

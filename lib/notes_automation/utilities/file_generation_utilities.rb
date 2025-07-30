@@ -1,36 +1,38 @@
+# frozen_string_literal: true
+
 # -------------------------------
 # Static file generation functions
 # -------------------------------
 
 require 'fileutils'
-require 'rouge'     # for syntax highlighting
+# require 'rouge' # for syntax highlighting
 
 module NotesAutomation
   module Utilities
     module FileGenerationUtilities
-      LINK_REGEX = /\[\[(.*?)\]\]/          # Regex for wiki‐style links: [[some link]]
+      LINK_REGEX = /\[\[(.*?)\]\]/ # Regex for wiki‐style links: [[some link]]
 
       # Use Rouge to generate a stylesheet (using the “github” theme).
       def generate_stylesheet
         theme = Rouge::Theme.find('github')
-        css = theme ? theme.render(scope: '.highlight') : ""
-        mkdir("output")
-        File.write(File.join("output", "pygments.css"), css)
+        css = theme ? theme.render(scope: '.highlight') : ''
+        mkdir('output')
+        File.write(File.join('output', 'pygments.css'), css)
       end
 
       # Copy static files (css and svg) from the templates directory to the output directory.
       def copy_static(from_dir, to_dir)
-        Dir.glob(File.join(from_dir.to_s, "*.{css,svg}")).each do |file|
+        Dir.glob(File.join(from_dir.to_s, '*.{css,svg}')).each do |file|
           FileUtils.cp(file, to_dir)
         end
       end
 
       # Strip a "fancy" link name – if a pipe or hash is present, return only the first part.
       def strip_fancy_name(link)
-        if link.include?("|")
-          link.split("|").first
-        elsif link.include?("#")
-          link.split("#").first
+        if link.include?('|')
+          link.split('|').first
+        elsif link.include?('#')
+          link.split('#').first
         else
           link
         end
@@ -71,8 +73,8 @@ module NotesAutomation
 
       # Split a list of files into markdown files and non-markdown files.
       def split_files(files)
-        md_files = files.select { |f| f.end_with?(".md") }
-        non_md  = files.reject { |f| f.end_with?(".md") }
+        md_files = files.select { |f| f.end_with?('.md') }
+        non_md = files.reject { |f| f.end_with?('.md') }
         [md_files, non_md]
       end
     end

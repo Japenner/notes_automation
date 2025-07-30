@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents file timestamp information from Git.
 module NotesAutomation
   class GitStat

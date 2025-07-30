@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative '../../parse/markdown'
+require_relative '../../parse_markdown'
 
 module NotesAutomation
   module Commands
     module Parse
       class Markdown
-        def self.run(path, options)
+        def self.run(_path, options)
           logger = Logger.new($stdout)
 
           kwargs = { logger: logger, **options }
-          parser = Parse::Markdown.new([], kwargs)
+          parser = ParseMarkdown.new([], kwargs)
           parser.run
         end
       end

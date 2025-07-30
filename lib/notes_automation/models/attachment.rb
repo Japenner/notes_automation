@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents a non–Markdown attachment (e.g. images, PDFs, videos).
 module NotesAutomation
   class Attachment
